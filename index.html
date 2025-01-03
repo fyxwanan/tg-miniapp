@@ -120,24 +120,6 @@
                 document.body.style.visibility = '';
                 Telegram.WebApp.ready();
 
-                Telegram.WebApp.MainButton.setParams({
-                    text: 'Close Webview',
-                    has_shine_effect: true,
-                    is_visible: true
-                }).onClick(DemoApp.close);
-
-                Telegram.WebApp.SecondaryButton.setParams({
-                    text: 'Do Something',
-                    is_visible: true
-                }).onClick(DemoApp.moveSecondaryButton);
-
-                Telegram.WebApp.BackButton.onClick(function () {
-                    DemoApp.showAlert('Back button pressed');
-                });
-
-                Telegram.WebApp.SettingsButton.onClick(function () {
-                    DemoApp.showAlert('Settings opened!');
-                });
             },
 
         }
