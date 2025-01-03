@@ -36,7 +36,7 @@
 </head>
 
 <body class="" style="visibility: hidden;">
-    <div>shake</div>
+    <div>shake 摇一摇</div>
 
     <script type="application/javascript">
         const SHAKE_THRESHOLD = 10 // 根据需求调整阈值
@@ -84,6 +84,7 @@
             const detectionTimeout = setTimeout(() => {
                 if (shakeCount >= REQUIRED_SHAKES) {
                     console.log('我摇动了手机，执行回调方法')
+                    alert("摇起来了")
                 }
 
                 // 重置状态
