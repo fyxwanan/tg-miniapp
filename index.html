@@ -37,6 +37,7 @@
 
 <body class="" style="visibility: hidden;">
     <div>shake 摇一摇</div>
+    <button onclick="handleShake()">开始摇动</button>
 
     <script type="application/javascript">
         const SHAKE_THRESHOLD = 10 // 根据需求调整阈值
@@ -125,7 +126,11 @@
         }
 
         DemoApp.init();
-        startShakeEventListener()
+
+        const handleShake = () => {
+            console.log("开始摇动")
+            startShakeEventListener()
+        }
 
     </script>
 
