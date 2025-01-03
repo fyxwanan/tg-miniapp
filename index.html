@@ -11,6 +11,10 @@
     <meta name="HandheldFriendly" content="True" />
     <meta name="robots" content="noindex,nofollow" />
     <script src="https://telegram.org/js/telegram-web-app.js?57"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+     <!-- 引入 Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script>
         function setThemeClass() {
             document.documentElement.className = Telegram.WebApp.colorScheme;
@@ -36,81 +40,97 @@
 </head>
 
 <body class="" style="visibility: hidden;">
-    <div>shake 摇一摇 2</div>
-    <button onclick="handleShake()">开始摇动</button>
-    <div>摇动次数 <span id="count"> </span></div>
-    <div>是否开始摇动 <span id="shaking"> </span></div>
-    <div>摇晃的值 <span id="shakeValue"> </span></div>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+
+        // React Component
+        function App() {
+            const [shakeCount, setShakeCount] = useState(0);
+            const [webAppVersion, setwebAppVersion] = useState("");
+            const [shakeValue, setshakeValue] = useState([]);
+            const [shaking, setshaking] = useState(false);
+
+            const SHAKE_THRESHOLD = 15 // 根据需求调整阈值
+            const DETECTION_TIME = 2000 // 重置计数的时间间隔（毫秒）
+            const REQUIRED_SHAKES = 3 // 需要的摇动次数
+
+            const handleShake = () => {
+                console.log("开始摇动")
+            }
+
+            useEffect(() => {
+                // @ts-ignore
+                const accelerometer = globalThis?.Telegram?.WebApp?.Accelerometer
+
+                if (!accelerometer) {
+                    return
+                }
+
+                setwebAppVersion(Telegram.WebApp.version);
+
+                const handleShake = () => {
+                    if (accelerometer.isStarted) {
+                        setshaking(true)
+                        const { x, y, z } = accelerometer
+
+                        const magnitude = Math.sqrt(x * x + y * y + z * z)
+
+                        setshakeValue([...shakeValue, magnitude]);
+                        
+                        if (magnitude > WEB_SHAKE_THRESHOLD) {
+                            setShakeCount(count => count + 1)
+                        }
+                    }
+                }
+
+                // 启动加速度计
+                accelerometer.start()
+
+                const interval = setInterval(handleShake, 100) // 每 100ms 检测一次
+
+                // 检测摇动次数
+                const detectionTimeout = setTimeout(() => {
+                    if (shakeCount >= REQUIRED_SHAKES) {
+                        onShakeDetected()
+                    }
+
+                    // 重置状态
+                    setShakeCount(0)
+                }, DETECTION_TIME)
+
+                // 清理
+                return () => {
+                    clearInterval(interval)
+                    clearTimeout(detectionTimeout)
+                    accelerometer.stop()
+                }
+            }, [shakeCount])
+
+            return (
+                <div>
+                    <div>shake 摇一摇 React</div>
+                    <div>摇动次数 {shakeCount}</div>
+                    <div>是否开始摇动 {shaking ? "是" : "否"}</div>
+                    <div>摇晃的值 {shakeValue.join(",   ")}</div>
+                    <div>当前Tg webapp版本 {webAppVersion}</div>
+                </div>
+            );
+        }
+
+        // Render React Component
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 
     <script type="application/javascript">
-        const SHAKE_THRESHOLD = 2 // 根据需求调整阈值
+        const SHAKE_THRESHOLD = 15 // 根据需求调整阈值
         const DETECTION_TIME = 2000 // 重置计数的时间间隔（毫秒）
         const REQUIRED_SHAKES = 3 // 需要的摇动次数
         const shakingList = [];
 
-        const startShakeEventListener = () => {
-            let shakeCount = 0
-            // @ts-ignore
-            console.log("startShakeEventListener ......")
-            const accelerometer = globalThis?.Telegram?.WebApp?.Accelerometer
-            console.log("startShakeEventListener accelerometer......", accelerometer)
-            if (!accelerometer) {
-                console.log("不支持摇动")
-                return
-            }
-
-            const handleShake = () => {
-                if (accelerometer.isStarted) {
-                    document.getElementById("shaking").innerHTML = "启动了摇动监听";
-                    const { x, y, z } = accelerometer
-
-                    const magnitude = Math.sqrt(x * x + y * y + z * z)
-                    shakingList.push(magnitude)
-
-                    document.getElementById("shakeValue").innerHTML = shakingList.join(",  ");
-                    if (magnitude > SHAKE_THRESHOLD) {
-                        // setShakeCount(shakeCount => shakeCount + 1)
-                        shakeCount++
-                        document.getElementById("count").innerHTML = shakeCount;
-                    }
-                }
-            }
-
-            try {
-                // 启动加速度计
-                accelerometer.start({ refresh_rate: 100 })
-                setTimeout(() => {
-                    console.log("Start called, isStarted:", accelerometer.isStarted);
-                }, 2000)
-            } catch (error) {
-                console.error("Error calling accelerometer.start():", error);
-            }
-
-            console.log("accelerometer ===>", accelerometer)
-
-            const interval = setInterval(handleShake, 100) // 每 100ms 检测一次
-
-            // 检测摇动次数
-            const detectionTimeout = setTimeout(() => {
-                if (shakeCount >= REQUIRED_SHAKES) {
-                    console.log('我摇动了手机，执行回调方法')
-                    alert("摇起来了")
-                }
-
-                // 重置状态
-                // setShakeCount(0)
-                shakeCount = 0;
-            }, DETECTION_TIME)
-
-            console.log("shakeCount ===>", shakeCount)
-            // // 清理
-            // return () => {
-            //     clearInterval(interval)
-            //     clearTimeout(detectionTimeout)
-            //     accelerometer.stop()
-            // }
-
-        }
 
         /*
          * This is a demo code for Telegram WebApp for Bots
@@ -129,20 +149,12 @@
             init: function (options) {
                 document.body.style.visibility = '';
                 Telegram.WebApp.ready();
-
             },
 
         }
-
         DemoApp.init();
 
-        const handleShake = () => {
-            console.log("开始摇动")
-            startShakeEventListener()
-        }
-
     </script>
-
 
 </body>
 
