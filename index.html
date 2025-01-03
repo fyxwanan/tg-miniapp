@@ -36,13 +36,17 @@
 </head>
 
 <body class="" style="visibility: hidden;">
-    <div>shake 摇一摇</div>
+    <div>shake 摇一摇 2</div>
     <button onclick="handleShake()">开始摇动</button>
+    <div>摇动次数 <span id="count"> </span></div>
+    <div>是否开始摇动 <span id="shaking"> </span></div>
+    <div>摇晃的值 <span id="shakeValue"> </span></div>
 
     <script type="application/javascript">
-        const SHAKE_THRESHOLD = 10 // 根据需求调整阈值
+        const SHAKE_THRESHOLD = 2 // 根据需求调整阈值
         const DETECTION_TIME = 2000 // 重置计数的时间间隔（毫秒）
         const REQUIRED_SHAKES = 3 // 需要的摇动次数
+        const shakingList = [];
 
         const startShakeEventListener = () => {
             let shakeCount = 0
@@ -57,12 +61,17 @@
 
             const handleShake = () => {
                 if (accelerometer.isStarted) {
+                    document.getElementById("shaking").innerHTML = "启动了摇动监听";
                     const { x, y, z } = accelerometer
 
                     const magnitude = Math.sqrt(x * x + y * y + z * z)
+                    shakingList.push(magnitude)
+
+                    document.getElementById("shakeValue").innerHTML = shakingList.join(",  ");
                     if (magnitude > SHAKE_THRESHOLD) {
                         // setShakeCount(shakeCount => shakeCount + 1)
                         shakeCount++
+                        document.getElementById("count").innerHTML = shakeCount;
                     }
                 }
             }
