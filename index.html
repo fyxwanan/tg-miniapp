@@ -70,6 +70,9 @@
                 const handleShake = () => {
                     if (accelerometer.isStarted) {
                         setshaking(true)
+                        const { x, y, z } = accelerometer
+                        const acceleration = Math.sqrt(x * x + y * y + z * z)
+                        setshakeValue([...shakeValue, acceleration])
                         setData(accelerometer)
                     }
                 }
@@ -81,7 +84,7 @@
                     clearInterval(interval)
                     accelerometer.stop()
                 }
-            }, [])
+            }, [shakeValue])
 
             useEffect(() => {
                 const { x, y, z } = data
@@ -112,7 +115,7 @@
 
             return (
                 <div>
-                    <div>shake 摇一摇</div>
+                    <div>shake</div>
                     <div>摇动次数 {shakeCount}</div>
                     <div>是否开始摇动 {shaking ? "是" : "否"}</div>
                     <div>摇晃的值 {shakeValue.join(",   ")}</div>
