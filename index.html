@@ -105,7 +105,7 @@
                         setShakeCount(prev => prev + 1)
                     } else {
                         // 超过时间窗口，重置计数
-                        setShakeCount(1)
+                        setShakeCount(0)
                     }
 
                     setLastShakeTime(now)
@@ -117,7 +117,9 @@
                         setShakeCount(0) // 重置计数
                     }
                 }
-            }, [ohyou, lastShakeTime, shakeCount, handleShakeCallback])
+            }, [ohyou
+            // , lastShakeTime, shakeCount, handleShakeCallback
+        ])
 
             const debounce = (fn, delay) => {
                 let timer = null;
@@ -134,7 +136,7 @@
 
             const handleShakeCallback = React.useCallback(
                 debounce(() => {
-                    console.log("handleShakeCallback ====>")
+                    console.log("我进来了啊 handleShakeCallback ====>")
                 }, 300),
                 []
             )
@@ -146,11 +148,12 @@
 
             return (
                 <div>
-                    <div>shake ohyou qqa</div>
+                    <div>shake  -- -</div>
                     <div>摇动次数 {shakeCount}</div>
                     <div>是否开始摇动 {shaking ? "是" : "否"}</div>
                     <div>当前Tg webapp版本 {webAppVersion}</div>
-                
+                    <div>摇晃的值 {shakeValue.join(",   ")}</div>
+                    <div>差值时间集合 {diffTimeList.join(",   ")}</div>
                     <input onChange={handleChange} />
                 </div>
             );
