@@ -54,6 +54,7 @@
             const [shakeValue, setshakeValue] = useState([]);
             const [shaking, setshaking] = useState(false);
             const [lastShakeTime, setLastShakeTime] = useState(0)
+            const [diffTimeList, setDiffTimeList] = useState([])
 
             const SHAKE_THRESHOLD = 15 // 根据需求调整阈值
             const DETECTION_TIME = 2000 // 重置计数的时间间隔（毫秒）
@@ -95,6 +96,8 @@
                     const now = Date.now()
 
                     // 如果上次摇动时间在允许的时间窗口内
+                    const diffTime = now - lastShakeTime;
+                    setDiffTimeList([...diffTimeList, diffTime])
                     if (now - lastShakeTime < DETECTION_TIME) {
                         setShakeCount(prev => prev + 1)
                     } else {
@@ -120,6 +123,7 @@
                     <div>是否开始摇动 {shaking ? "是" : "否"}</div>
                     <div>摇晃的值 {shakeValue.join(",   ")}</div>
                     <div>当前Tg webapp版本 {webAppVersion}</div>
+                    <div>差值时间集合 {webAppVersion}</div>
                 </div>
             );
         }
