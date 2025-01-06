@@ -110,12 +110,9 @@
                 }
             }
 
-            const handleShakeCallback = React.useCallback(
-                debounce(() => {
-                    console.log("我进来了啊 handleShakeCallback ====>")
-                }, 300),
-                []
-            )
+            const handleShakeCallback = debounce(() => {
+                console.log("我进来了啊 handleShakeCallback ====>")
+            }, 300)
 
             const handleChange = debounce((e) => {
                 console.log("ee", e.target.value)
@@ -124,7 +121,7 @@
 
             return (
                 <div>
-                    <div>shake  17.5</div>
+                    <div>shake  0.0.0</div>
                     <div>摇动次数 {shakeCount}</div>
                     <div>是否开始摇动 {shaking ? "是" : "否"}</div>
                     <div>当前Tg webapp版本 {webAppVersion}</div>
