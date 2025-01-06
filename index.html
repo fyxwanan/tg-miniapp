@@ -123,12 +123,9 @@
                 }
             }
 
-            const handleShakeCallback = React.useCallback(
-                debounce(() => {
-                    handleShake()
-                }, 300),
-                []
-            )
+            const handleShakeCallback = debounce(() => {
+                handleShake()
+            }, 300)
 
             const handleShake = () => {
                 console.log("我进来了啊 handleShakeCallback ====>", current)
@@ -141,7 +138,7 @@
 
             return (
                 <div>
-                    <div>shake  111</div>
+                    <div>shake  222</div>
                     <div>current View {current}</div>
                     <div className="actions">
                         <span onClick={() => setCurrent("drawlot")}>drawlot</span>
