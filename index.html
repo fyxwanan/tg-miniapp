@@ -57,9 +57,7 @@
             const [diffTimeList, setDiffTimeList] = useState([])
             const [ohyou, setohyou] = useState(0)
 
-            const SHAKE_THRESHOLD = 15 // 根据需求调整阈值
-            const DETECTION_TIME = 2000 // 重置计数的时间间隔（毫秒）
-            const REQUIRED_SHAKES = 3 // 需要的摇动次数
+            const SHAKE_THRESHOLD = 20 // 根据需求调整阈值
 
 
             useEffect(() => {
@@ -81,7 +79,7 @@
                 }
                 // 启动加速度计
                 accelerometer.start()
-                const interval = setInterval(handleShake, 100) // 每 100ms 检测一次
+                const interval = setInterval(handleShake, 300) // 每 300ms 检测一次
                 // 清理
                 return () => {
                     clearInterval(interval)
@@ -95,31 +93,9 @@
                 setshakeValue([...shakeValue, ohyou])
                 // 检测摇动
                 if (ohyou > SHAKE_THRESHOLD) {
-                    const now = Date.now()
-                    // 如果上次摇动时间在允许的时间窗口内
-                    const diffTime = now - lastShakeTime;
-
-                    console.log(`我进来了啊 diffTime  ${diffTime}`)
-                    setDiffTimeList([...diffTimeList, diffTime])
-                    if (now - lastShakeTime < DETECTION_TIME) {
-                        setShakeCount(prev => prev + 1)
-                    } else {
-                        // 超过时间窗口，重置计数
-                        setShakeCount(0)
-                    }
-
-                    setLastShakeTime(now)
-
-                    // 检查是否满足条件触发事件
-                    if (shakeCount + 1 >= REQUIRED_SHAKES) {
-                        // onShakeDetected()
-                        handleShakeCallback();
-                        setShakeCount(0) // 重置计数
-                    }
+                    handleShakeCallback();
                 }
-            }, [ohyou
-            // , lastShakeTime, shakeCount, handleShakeCallback
-        ])
+            }, [ohyou])
 
             const debounce = (fn, delay) => {
                 let timer = null;
@@ -148,7 +124,7 @@
 
             return (
                 <div>
-                    <div>shake  -- -</div>
+                    <div>shake  okok</div>
                     <div>摇动次数 {shakeCount}</div>
                     <div>是否开始摇动 {shaking ? "是" : "否"}</div>
                     <div>当前Tg webapp版本 {webAppVersion}</div>
@@ -165,12 +141,6 @@
     </script>
 
     <script type="application/javascript">
-        const SHAKE_THRESHOLD = 15 // 根据需求调整阈值
-        const DETECTION_TIME = 2000 // 重置计数的时间间隔（毫秒）
-        const REQUIRED_SHAKES = 6 // 需要的摇动次数
-        const shakingList = [];
-
-
         /*
          * This is a demo code for Telegram WebApp for Bots
          * It contains basic examples of how to use the API
