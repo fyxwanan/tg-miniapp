@@ -75,7 +75,7 @@
                         setshaking(true)
                         const { x, y, z } = accelerometer
                         const acceleration = Math.sqrt(x * x + y * y + z * z)
-                        console.log("handleShake acceleration", acceleration)
+                        // console.log("handleShake acceleration", acceleration)
                         setohyou(acceleration)
                     }
                 }
@@ -96,10 +96,10 @@
                 // 检测摇动
                 if (ohyou > SHAKE_THRESHOLD) {
                     const now = Date.now()
-                    console.log(`我进来了啊 diffTime  ${diffTime}`)
-
                     // 如果上次摇动时间在允许的时间窗口内
                     const diffTime = now - lastShakeTime;
+
+                    console.log(`我进来了啊 diffTime  ${diffTime}`)
                     setDiffTimeList([...diffTimeList, diffTime])
                     if (now - lastShakeTime < DETECTION_TIME) {
                         setShakeCount(prev => prev + 1)
@@ -117,7 +117,7 @@
                         setShakeCount(0) // 重置计数
                     }
                 }
-            }, [ohyou, lastShakeTime, shakeCount])
+            }, [ohyou, lastShakeTime, shakeCount, handleShakeCallback])
 
             const debounce = (fn, delay) => {
                 let timer = null;
@@ -132,9 +132,12 @@
                 }
             }
 
-            const handleShakeCallback = debounce(() => {
-                console.log("handleShakeCallback ====>")
-            }, 300)
+            const handleShakeCallback = React.useCallback(
+                debounce(() => {
+                    console.log("handleShakeCallback ====>")
+                }, 300),
+                []
+            )
 
             const handleChange = debounce((e) => {
                 console.log("ee", e.target.value)
@@ -143,12 +146,11 @@
 
             return (
                 <div>
-                    <div>shake ohyou</div>
+                    <div>shake ohyou qqa</div>
                     <div>摇动次数 {shakeCount}</div>
                     <div>是否开始摇动 {shaking ? "是" : "否"}</div>
-                    <div>摇晃的值 {shakeValue.join(",   ")}</div>
                     <div>当前Tg webapp版本 {webAppVersion}</div>
-                    <div>差值时间集合 {diffTimeList.join(",   ")}</div>
+                
                     <input onChange={handleChange} />
                 </div>
             );
