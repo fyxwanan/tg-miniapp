@@ -55,7 +55,7 @@
             const [shaking, setshaking] = useState(false);
             const [lastShakeTime, setLastShakeTime] = useState(0)
             const [diffTimeList, setDiffTimeList] = useState([])
-            const [_acceleration, set_acceleration] = useState(0)
+            const [ohyou, setohyou] = useState(0)
 
             const SHAKE_THRESHOLD = 15 // 根据需求调整阈值
             const DETECTION_TIME = 2000 // 重置计数的时间间隔（毫秒）
@@ -73,12 +73,10 @@
                     console.log("handleShake ", Date.now(), accelerometer.isStarted)
                     if (accelerometer.isStarted) {
                         setshaking(true)
-
                         const { x, y, z } = accelerometer
                         const acceleration = Math.sqrt(x * x + y * y + z * z)
-                        set_acceleration(acceleration)
-                        console.log(`我进来了啊  ${acceleration}`)
-                        setshakeValue([...shakeValue, acceleration])
+                        console.log("handleShake acceleration", acceleration)
+                        setohyou(acceleration)
                     }
                 }
                 // 启动加速度计
@@ -92,9 +90,13 @@
             }, [])
 
             useEffect(() => {
+                console.log(`我进来了啊 ohyou  ${ohyou}`)
+                console.log(`我进来了啊 shakeCount  ${shakeCount}`)
+                setshakeValue([...shakeValue, ohyou])
                 // 检测摇动
-                if (_acceleration > SHAKE_THRESHOLD) {
+                if (ohyou > SHAKE_THRESHOLD) {
                     const now = Date.now()
+                    console.log(`我进来了啊 diffTime  ${diffTime}`)
 
                     // 如果上次摇动时间在允许的时间窗口内
                     const diffTime = now - lastShakeTime;
@@ -115,12 +117,12 @@
                         setShakeCount(0) // 重置计数
                     }
                 }
-            }, [_acceleration, lastShakeTime, shakeCount])
+            }, [ohyou, lastShakeTime, shakeCount])
 
 
             return (
                 <div>
-                    <div>shake hhh</div>
+                    <div>shake ohyou</div>
                     <div>摇动次数 {shakeCount}</div>
                     <div>是否开始摇动 {shaking ? "是" : "否"}</div>
                     <div>摇晃的值 {shakeValue.join(",   ")}</div>
