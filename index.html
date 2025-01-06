@@ -36,6 +36,18 @@
             padding: 0;
             color-scheme: var(--tg-color-scheme);
         }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .actions span {
+            font-size: 20px;
+            padding-left: 12px;
+            padding-right: 12px;
+        }
     </style>
 </head>
 
@@ -56,6 +68,7 @@
             const [lastShakeTime, setLastShakeTime] = useState(0)
             const [diffTimeList, setDiffTimeList] = useState([])
             const [ohyou, setohyou] = useState(0)
+            const [current, setCurrent] = useState("tarot")
 
             const SHAKE_THRESHOLD = 17.5 // 根据需求调整阈值
 
@@ -110,9 +123,16 @@
                 }
             }
 
-            const handleShakeCallback = debounce(() => {
-                console.log("我进来了啊 handleShakeCallback ====>")
-            }, 300)
+            const handleShakeCallback = React.useCallback(
+                debounce(() => {
+                    handleShake()
+                }, 300),
+                []
+            )
+
+            const handleShake = () => {
+                console.log("我进来了啊 handleShakeCallback ====>", current)
+            }
 
             const handleChange = debounce((e) => {
                 console.log("ee", e.target.value)
@@ -121,7 +141,12 @@
 
             return (
                 <div>
-                    <div>shake  0.0.0</div>
+                    <div>shake  111</div>
+                    <div>current View {current}</div>
+                    <div className="actions">
+                        <span onClick={() => setCurrent("drawlot")}>drawlot</span>
+                        <span onClick={() => setCurrent("tarot")}>tarot</span>
+                    </div>
                     <div>摇动次数 {shakeCount}</div>
                     <div>是否开始摇动 {shaking ? "是" : "否"}</div>
                     <div>当前Tg webapp版本 {webAppVersion}</div>
