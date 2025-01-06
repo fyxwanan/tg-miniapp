@@ -69,9 +69,38 @@
                 }
                 setwebAppVersion(Telegram.WebApp.version);
                 const handleShake = () => {
+                    console.log("handleShake ", Date.now(), accelerometer.isStarted)
                     if (accelerometer.isStarted) {
                         setshaking(true)
-                        setData(accelerometer)
+
+                        const { x, y, z } = accelerometer
+                        const acceleration = Math.sqrt(x * x + y * y + z * z)
+                        console.log(`我进来了啊  ${acceleration}`)
+                        setshakeValue([...shakeValue, acceleration])
+                        // 检测摇动
+                        if (acceleration > SHAKE_THRESHOLD) {
+                            const now = Date.now()
+
+                            // 如果上次摇动时间在允许的时间窗口内
+                            const diffTime = now - lastShakeTime;
+                            setDiffTimeList([...diffTimeList, diffTime])
+                            if (now - lastShakeTime < DETECTION_TIME) {
+                                setShakeCount(prev => prev + 1)
+                            } else {
+                                // 超过时间窗口，重置计数
+                                setShakeCount(1)
+                            }
+
+                            setLastShakeTime(now)
+
+                            // 检查是否满足条件触发事件
+                            if (shakeCount + 1 >= REQUIRED_SHAKES) {
+                                // onShakeDetected()
+                                alert("我摇动了")
+                                setShakeCount(0) // 重置计数
+                            }
+                        }
+
                     }
                 }
                 // 启动加速度计
@@ -84,39 +113,10 @@
                 }
             }, [])
 
-            useEffect(() => {
-                const { x, y, z } = data
-                const acceleration = Math.sqrt(x * x + y * y + z * z)
-                console.log(`我进来了啊  ${acceleration}`)
-                setshakeValue([...shakeValue, acceleration])
-                // 检测摇动
-                if (acceleration > SHAKE_THRESHOLD) {
-                    const now = Date.now()
-
-                    // 如果上次摇动时间在允许的时间窗口内
-                    const diffTime = now - lastShakeTime;
-                    setDiffTimeList([...diffTimeList, diffTime])
-                    if (now - lastShakeTime < DETECTION_TIME) {
-                        setShakeCount(prev => prev + 1)
-                    } else {
-                        // 超过时间窗口，重置计数
-                        setShakeCount(1)
-                    }
-
-                    setLastShakeTime(now)
-
-                    // 检查是否满足条件触发事件
-                    if (shakeCount + 1 >= REQUIRED_SHAKES) {
-                        // onShakeDetected()
-                        alert("我摇动了")
-                        setShakeCount(0) // 重置计数
-                    }
-                }
-            }, [data, shakeCount, lastShakeTime])
 
             return (
                 <div>
-                    <div>shake ok 111222</div>
+                    <div>shake wwww</div>
                     <div>摇动次数 {shakeCount}</div>
                     <div>是否开始摇动 {shaking ? "是" : "否"}</div>
                     <div>摇晃的值 {shakeValue.join(",   ")}</div>
