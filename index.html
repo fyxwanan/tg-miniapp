@@ -70,7 +70,7 @@
                 }
                 setwebAppVersion(Telegram.WebApp.version);
                 const handleShake = () => {
-                    console.log("handleShake ", Date.now(), accelerometer.isStarted)
+                    // console.log("handleShake ", Date.now(), accelerometer.isStarted)
                     if (accelerometer.isStarted) {
                         setshaking(true)
                         const { x, y, z } = accelerometer
@@ -113,11 +113,32 @@
                     // 检查是否满足条件触发事件
                     if (shakeCount + 1 >= REQUIRED_SHAKES) {
                         // onShakeDetected()
-                        alert("我摇动了")
+                        handleShakeCallback();
                         setShakeCount(0) // 重置计数
                     }
                 }
             }, [ohyou, lastShakeTime, shakeCount])
+
+            const debounce = (fn, delay) => {
+                let timer = null;
+                return function (...args) {
+                    const context = this;
+                    if (timer) {
+                        clearTimeout(timer)
+                    }
+                    timer = setTimeout(() => {
+                        fn.apply(context, args);
+                    }, delay)
+                }
+            }
+
+            const handleShakeCallback = debounce(() => {
+                console.log("handleShakeCallback ====>")
+            }, 300)
+
+            const handleChange = debounce((e) => {
+                console.log("ee", e.target.value)
+            }, 300)
 
 
             return (
@@ -128,6 +149,7 @@
                     <div>摇晃的值 {shakeValue.join(",   ")}</div>
                     <div>当前Tg webapp版本 {webAppVersion}</div>
                     <div>差值时间集合 {diffTimeList.join(",   ")}</div>
+                    <input onChange={handleChange} />
                 </div>
             );
         }
@@ -140,7 +162,7 @@
     <script type="application/javascript">
         const SHAKE_THRESHOLD = 15 // 根据需求调整阈值
         const DETECTION_TIME = 2000 // 重置计数的时间间隔（毫秒）
-        const REQUIRED_SHAKES = 3 // 需要的摇动次数
+        const REQUIRED_SHAKES = 6 // 需要的摇动次数
         const shakingList = [];
 
 
