@@ -57,7 +57,7 @@
             const [diffTimeList, setDiffTimeList] = useState([])
             const [ohyou, setohyou] = useState(0)
 
-            const SHAKE_THRESHOLD = 20 // 根据需求调整阈值
+            const SHAKE_THRESHOLD = 17.5 // 根据需求调整阈值
 
 
             useEffect(() => {
@@ -124,7 +124,7 @@
 
             return (
                 <div>
-                    <div>shake  okok</div>
+                    <div>shake  17.5</div>
                     <div>摇动次数 {shakeCount}</div>
                     <div>是否开始摇动 {shaking ? "是" : "否"}</div>
                     <div>当前Tg webapp版本 {webAppVersion}</div>
