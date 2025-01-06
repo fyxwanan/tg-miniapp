@@ -111,11 +111,11 @@
                         setShakeCount(0) // 重置计数
                     }
                 }
-            }, [data])
+            }, [data, shakeCount, lastShakeTime])
 
             return (
                 <div>
-                    <div>shake</div>
+                    <div>shake ok</div>
                     <div>摇动次数 {shakeCount}</div>
                     <div>是否开始摇动 {shaking ? "是" : "否"}</div>
                     <div>摇晃的值 {shakeValue.join(",   ")}</div>
