@@ -74,7 +74,7 @@
                     }
                 }
                 // 启动加速度计
-                accelerometer.start({ refresh_rate: 100 })
+                accelerometer.start()
                 const interval = setInterval(handleShake, 100) // 每 100ms 检测一次
                 // 清理
                 return () => {
@@ -112,7 +112,7 @@
 
             return (
                 <div>
-                    <div>shake 摇一摇 React local</div>
+                    <div>shake 摇一摇</div>
                     <div>摇动次数 {shakeCount}</div>
                     <div>是否开始摇动 {shaking ? "是" : "否"}</div>
                     <div>摇晃的值 {shakeValue.join(",   ")}</div>
