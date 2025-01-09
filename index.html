@@ -36,18 +36,6 @@
             padding: 0;
             color-scheme: var(--tg-color-scheme);
         }
-
-        .actions {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .actions span {
-            font-size: 20px;
-            padding-left: 12px;
-            padding-right: 12px;
-        }
     </style>
 </head>
 
@@ -60,96 +48,26 @@
 
         // React Component
         function App() {
-            const [data, setData] = useState({ x: 0, y: 0, z: 0 })
-            const [shakeCount, setShakeCount] = useState(0);
-            const [webAppVersion, setwebAppVersion] = useState("");
-            const [shakeValue, setshakeValue] = useState([]);
-            const [shaking, setshaking] = useState(false);
-            const [lastShakeTime, setLastShakeTime] = useState(0)
-            const [diffTimeList, setDiffTimeList] = useState([])
-            const [ohyou, setohyou] = useState(0)
-            const [current, setCurrent] = useState("tarot")
-
-            const SHAKE_THRESHOLD = 17.5 // 根据需求调整阈值
-
-
-            useEffect(() => {
-                // @ts-ignore
-                const accelerometer = globalThis?.Telegram?.WebApp?.Accelerometer
-                if (!accelerometer) {
-                    return
-                }
-                setwebAppVersion(Telegram.WebApp.version);
-                const handleShake = () => {
-                    // console.log("handleShake ", Date.now(), accelerometer.isStarted)
-                    if (accelerometer.isStarted) {
-                        setshaking(true)
-                        const { x, y, z } = accelerometer
-                        const acceleration = Math.sqrt(x * x + y * y + z * z)
-                        // console.log("handleShake acceleration", acceleration)
-                        setohyou(acceleration)
-                    }
-                }
-                // 启动加速度计
-                accelerometer.start()
-                const interval = setInterval(handleShake, 300) // 每 300ms 检测一次
-                // 清理
-                return () => {
-                    clearInterval(interval)
-                    accelerometer.stop()
-                }
-            }, [])
-
-            useEffect(() => {
-                console.log(`我进来了啊 ohyou  ${ohyou}`)
-                console.log(`我进来了啊 shakeCount  ${shakeCount}`)
-                setshakeValue([...shakeValue, ohyou])
-                // 检测摇动
-                if (ohyou > SHAKE_THRESHOLD) {
-                    handleShakeCallback();
-                }
-            }, [ohyou])
-
-            const debounce = (fn, delay) => {
-                let timer = null;
-                return function (...args) {
-                    const context = this;
-                    if (timer) {
-                        clearTimeout(timer)
-                    }
-                    timer = setTimeout(() => {
-                        fn.apply(context, args);
-                    }, delay)
+            const handleShare = () => {
+                if (navigator.share) {
+                    navigator.share({
+                        title: '示例标题',
+                        text: '这是一段示例文本',
+                        url: 'http://gips3.baidu.com/it/u=3886271102,3123389489&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=960',
+                    }).then(() => {
+                        console.log('分享成功');
+                    }).catch(err => {
+                        console.log("分享失败", err.message);
+                    });
+                } else {
+                    alert('您的浏览器不支持分享');
                 }
             }
-
-            const handleShakeCallback = debounce(() => {
-                handleShake()
-            }, 300)
-
-            const handleShake = () => {
-                console.log("我进来了啊 handleShakeCallback ====>", current)
-            }
-
-            const handleChange = debounce((e) => {
-                console.log("ee", e.target.value)
-            }, 300)
-
 
             return (
                 <div>
-                    <div>shake  222</div>
-                    <div>current View {current}</div>
-                    <div className="actions">
-                        <span onClick={() => setCurrent("drawlot")}>drawlot</span>
-                        <span onClick={() => setCurrent("tarot")}>tarot</span>
-                    </div>
-                    <div>摇动次数 {shakeCount}</div>
-                    <div>是否开始摇动 {shaking ? "是" : "否"}</div>
-                    <div>当前Tg webapp版本 {webAppVersion}</div>
-                    <div>摇晃的值 {shakeValue.join(",   ")}</div>
-                    <div>差值时间集合 {diffTimeList.join(",   ")}</div>
-                    <input onChange={handleChange} />
+                    <div>测试分享</div>
+                    <button onClick={handleShare}>分享</button>
                 </div>
             );
         }
