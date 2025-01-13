@@ -52,6 +52,7 @@
             const [description, setDescription] = useState('');
             const [base64, setBase64] = useState('');
             const [blobUrl, setBlobUrl] = useState('');
+            const [scanResult, setScanResult] = useState("");
 
             const handleShare = () => {
                 if (navigator.share) {
@@ -170,6 +171,21 @@
                 }
             }
 
+            const handleScan = () => {
+                Telegram.WebApp.showScanQrPopup({
+                    text: "Scan a QR code to proceed", // 可选：自定义扫描提示文本
+                    callback: (result) => {
+                        if (result) {
+                            console.log("Scanned result:", result);
+                            setScanResult(result)
+                            // 在此处理扫描到的结果
+                        } else {
+                            console.log("Scan canceled or failed");
+                        }
+                    },
+                });
+            }
+
             return (
                 <div>
                     <div>测试分享</div>
@@ -183,8 +199,10 @@
                         <button onClick={handleShare}>分享</button>
                         <button onClick={handleShareImage}>分享图片</button>
                         <button onClick={handleShareBase64Image}>分享File</button>
+                        <button onClick={handleScan}>扫码</button>
                     </div>
-                    <canvas id="myCanvas" width="500" height="500" style={{ backgroundColor: 'red' }}></canvas>
+                    <div>扫码结果：{scanResult}</div>
+                    <canvas id="myCanvas" width="500" height="500" style={{ backgroundColor: 'red', marginTop: 40 }}></canvas>
                 </div>
             );
         }
