@@ -172,18 +172,21 @@
             }
 
             const handleScan = () => {
-                Telegram.WebApp.showScanQrPopup({
-                    text: "Scan a QR code to proceed", // 可选：自定义扫描提示文本
-                    callback: (result) => {
+                Telegram.WebApp.showScanQrPopup(
+                    {
+                        text: "Scan a QR code to proceed", // 可选：自定义扫描提示文本
+                    },
+                    (result) => {
                         if (result) {
                             console.log("Scanned result:", result);
                             setScanResult(result)
                             // 在此处理扫描到的结果
+                            Telegram.WebApp.closeScanQrPopup();
                         } else {
                             console.log("Scan canceled or failed");
                         }
                     },
-                });
+                );
             }
 
             return (
