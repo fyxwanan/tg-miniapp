@@ -189,6 +189,15 @@
                 );
             }
 
+            const shareToStory = () => {
+                Telegram.WebApp.shareToStory(
+                    "http://gips3.baidu.com/it/u=3886271102,3123389489&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=960",
+                    {
+                        text: "分享到朋友圈",
+                    }
+                );
+            }
+
             return (
                 <div>
                     <div>测试分享</div>
@@ -202,6 +211,7 @@
                         <button onClick={handleShare}>分享</button>
                         <button onClick={handleShareImage}>分享图片</button>
                         <button onClick={handleShareBase64Image}>分享File</button>
+                        <button onClick={shareToStory}>分享到社交媒体</button>
                         <button onClick={handleScan}>扫码</button>
                     </div>
                     <div>扫码结果：{scanResult}</div>
