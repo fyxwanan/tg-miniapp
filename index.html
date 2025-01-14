@@ -36,6 +36,13 @@
             padding: 0;
             color-scheme: var(--tg-color-scheme);
         }
+
+        .button-group {
+            padding: 8px;
+            display: flex;
+            flex-direction: row;
+            gap: 6px;
+        }
     </style>
 </head>
 
@@ -53,13 +60,14 @@
             const [base64, setBase64] = useState('');
             const [blobUrl, setBlobUrl] = useState('');
             const [scanResult, setScanResult] = useState("");
+            const imageUrl = 'http://gips3.baidu.com/it/u=3886271102,3123389489&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=960';
 
             const handleShare = () => {
                 if (navigator.share) {
                     navigator.share({
                         title: title || '示例标题',
                         text: description || '这是一段示例文本',
-                        url: 'http://gips3.baidu.com/it/u=3886271102,3123389489&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=960',
+                        url: imageUrl,
                     }).then(() => {
                         console.log('分享成功');
                     }).catch(err => {
@@ -75,7 +83,7 @@
                     navigator.share({
                         title: title || '示例标题',
                         text: description || '这是一段示例文本',
-                        url: 'http://gips3.baidu.com/it/u=3886271102,3123389489&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=960',
+                        url: imageUrl,
                     }).then(() => {
                         console.log('分享成功');
                     }).catch(err => {
@@ -190,12 +198,17 @@
             }
 
             const shareToStory = () => {
-                Telegram.WebApp.shareToStory(
-                    "http://gips3.baidu.com/it/u=3886271102,3123389489&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=960",
-                    {
-                        text: "分享到朋友圈",
-                    }
-                );
+                Telegram.WebApp.shareToStory(imageUrl)
+
+            }
+
+            const shareToTelegram = () => {
+                const shareUrl = `https://x.com/intent/tweet?url=${encodeURIComponent(imageUrl)}`;
+            }
+
+            const shareToX = () => {
+                const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(imageUrl)}&text=${encodeURIComponent(description || "示例标题")}`;
+                window.open(shareUrl, '_blank')
             }
 
             return (
@@ -207,12 +220,18 @@
                     <div>
                         <input type="text" placeholder="描述" value={description} onChange={(e) => setDescription(e.target.value)} />
                     </div>
-                    <div>
+                    <div className="button-group">
                         <button onClick={handleShare}>分享</button>
                         <button onClick={handleShareImage}>分享图片</button>
                         <button onClick={handleShareBase64Image}>分享File</button>
+                    </div>
+                    <div className="button-group">
                         <button onClick={shareToStory}>分享到社交媒体</button>
                         <button onClick={handleScan}>扫码</button>
+                    </div>
+                    <div className="button-group">
+                        <button onClick={shareToX}>分享到推特</button>
+                        <button onClick={shareToTelegram}>分享到Telegram</button>
                     </div>
                     <div>扫码结果：{scanResult}</div>
                     <canvas id="myCanvas" width="500" height="500" style={{ backgroundColor: 'red', marginTop: 40 }}></canvas>
