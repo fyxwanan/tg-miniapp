@@ -203,11 +203,12 @@
             }
 
             const shareToTelegram = () => {
-                const shareUrl = `https://x.com/intent/tweet?url=${encodeURIComponent(imageUrl)}`;
+                const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(imageUrl)}`;
+                window.open(shareUrl, '_blank')
             }
 
             const shareToX = () => {
-                const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(imageUrl)}&text=${encodeURIComponent(description || "示例标题")}`;
+                const shareUrl = `https://x.com/intent/tweet?url=${encodeURIComponent(imageUrl)}&text=${encodeURIComponent(description || "示例标题")}`;
                 window.open(shareUrl, '_blank')
             }
 
@@ -230,7 +231,7 @@
                         <button onClick={handleScan}>扫码</button>
                     </div>
                     <div className="button-group">
-                        <button onClick={shareToX}>分享到推特</button>
+                        <button onClick={shareToX}>分享到X</button>
                         <button onClick={shareToTelegram}>分享到Telegram</button>
                     </div>
                     <div>扫码结果：{scanResult}</div>
