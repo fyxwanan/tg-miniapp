@@ -22,16 +22,16 @@
         property="twitter:card"
         content="summary_large_image"
     />
-    <meta property="twitter:site" content="xiaoreya" />
-    <meta property="twitter:title" content="我是标题" />
+    <meta property="twitter:site" content="@xiaoreya" />
+    <meta property="twitter:title" content="我是标题, 我都不知道描述在哪里" />
     <meta property="twitter:description" content="我是描述，一段蛮长蛮长的描述" />
     <meta
         property="twitter:image"
-        content="https://storage.googleapis.com/linx-im-alpha/test/dex/share/100000.png?t=2"
+        content="https://storage.googleapis.com/linx-im-alpha/test/dex/share/100000.png?t=3"
     />
     <meta
         property="twitter:image:src"
-        content="https://storage.googleapis.com/linx-im-alpha/test/dex/share/100000.png?t=2"
+        content="https://storage.googleapis.com/linx-im-alpha/test/dex/share/100000.png?t=3"
     />
     <meta property="twitter:image:alt" content="我是标题" />
     <meta
@@ -43,7 +43,7 @@
     <meta property="og:description" content="我是标题" />
     <meta
         property="og:image"
-        content="https://storage.googleapis.com/linx-im-alpha/test/dex/share/100000.png?t=2"
+        content="https://storage.googleapis.com/linx-im-alpha/test/dex/share/100000.png?t=3"
     />
     <title>TG Share</title>
 
@@ -246,7 +246,7 @@
             }
 
             const shareToX = () => {
-                const shareUrl = `https://x.com/intent/tweet?url=${encodeURIComponent(`http://maze.xiaore.site?t=${Date.now()}`)}&text=${encodeURIComponent(description || "示例标题")}`;
+                const shareUrl = `https://x.com/intent/tweet?url=${encodeURIComponent(`https://maze.xiaore.site?t=${Date.now()}`)}&text=${encodeURIComponent(description || "示例标题")}`;
                 window.open(shareUrl, '_blank')
             }
 
@@ -279,7 +279,7 @@
                         */
                     }
 
-                    <img style={{ width: "80%" }} src={`https://storage.googleapis.com/linx-im-alpha/test/dex/share/100000.png?t=2`} alt="Generated Image" />
+                    <img style={{ width: "80%" }} src={`https://storage.googleapis.com/linx-im-alpha/test/dex/share/100000.png?t=3`} alt="Generated Image" />
                 </div>
             );
         }
