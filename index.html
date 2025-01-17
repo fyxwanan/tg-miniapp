@@ -246,6 +246,11 @@
                 window.open(shareUrl, '_blank')
             }
 
+            const shareDeexToTwitter = () => {
+                const shareUrl = "https://x.com/intent/tweet?url=https%3A%2F%2Fdapp-alpha.sending.me%2Fdex-share%3FshareParam%3DJTdCJTIyaW1hZ2VVcmwlMjIlM0ElMjJodHRwcyUzQSUyRiUyRnN0b3JhZ2UuZ29vZ2xlYXBpcy5jb20lMkZsaW54LWltLWFscGhhJTJGdGVzdCUyRmRleCUyRnNoYXJlJTJGMTAwMDAzLnBuZyUyMiUyQyUyMnRpdGxlJTIyJTNBJTIyVG9kYXkncyUyMEx1Y2t5JTIwQ2FyZCElNUNubmFtZSUzQSUyMEJsZXNzZWQlNUNua2V5d29yZHMlM0ElMjBOb3chJTVDbnNpZ25hdHVyZSUzQSUyME5vdyVFMiU4MCU5OXMlMjB0aGUlMjB0aW1lJUUyJTgwJTk0ZG9uJUUyJTgwJTk5dCUyMHdhaXQhISU1Q24lMjIlN0Q%3D&text=Today's%20Lucky%20Card!%0Aname%3A%20Blessed%0Akeywords%3A%20Now!%0Asignature%3A%20Now%E2%80%99s%20the%20time%E2%80%94don%E2%80%99t%20wait!!%0A"
+                window.open(shareUrl, '_blank')
+            }
+
             return (
                 <div>
                     <div>测试分享</div>
@@ -265,6 +270,7 @@
                         <button onClick={handleScan}>扫码</button>
                     </div>
                     <div className="button-group">
+                        <button onClick={shareDeexToTwitter}>分享Deex到Twitter</button>
                         <button onClick={shareToX}>分享到Twitter</button>
                         <button onClick={shareToTelegram}>分享到Telegram</button>
                     </div>
