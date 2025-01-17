@@ -246,7 +246,7 @@
             }
 
             const shareToX = () => {
-                const shareUrl = `https://x.com/intent/tweet?url=${encodeURIComponent(imageUrl)}&text=${encodeURIComponent(description || "示例标题")}`;
+                const shareUrl = `https://x.com/intent/tweet?url=${encodeURIComponent(`http://maze.xiaore.site?t=${Date.now()}`)}&text=${encodeURIComponent(description || "示例标题")}`;
                 window.open(shareUrl, '_blank')
             }
 
