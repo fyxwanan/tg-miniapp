@@ -14,33 +14,19 @@
 
     <meta charSet="UTF-8" />
     <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    />
-    <meta
-        property="twitter:card"
-        content="summary_large_image"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:site" content="@xiaoreya" />
     <meta property="twitter:title" content="我是标题, 我都不知道描述在哪里,真的假的" />
     <meta property="twitter:description" content="我是描述，一段蛮长蛮长的描述" />
-    <meta
-        property="twitter:image"
-        content="https://storage.googleapis.com/linx-im-alpha/test/dex/share/100000.png?t=3"
-    />
+    <meta property="twitter:image"
+        content="https://storage.googleapis.com/linx-im-alpha/test/dex/share/100000.png?t=3" />
     <meta property="twitter:image:alt" content="我是标题" />
-    <meta
-        property="og:url"
-        content="https://maze.xiaore.site"
-    />
+    <meta property="og:url" content="https://maze.xiaore.site" />
     <meta property="og:site" content="我是标题" />
     <meta property="og:title" content="我是标题" />
     <meta property="og:description" content="我是标题" />
-    <meta
-        property="og:image"
-        content="https://storage.googleapis.com/linx-im-alpha/test/dex/share/100000.png?t=3"
-    />
+    <meta property="og:image" content="https://storage.googleapis.com/linx-im-alpha/test/dex/share/100000.png?t=3" />
     <title>TG Share</title>
 
     <script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
@@ -83,7 +69,7 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React; 
+        const { useState, useEffect } = React;
 
 
         // React Component
@@ -315,6 +301,22 @@
         DemoApp.init();
 
     </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker
+                    .register('./service-worker.js')
+                    .then((registration) => {
+                        console.log('Service Worker registered with scope: ', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker registration failed: ', error);
+                    });
+            });
+        }
+    </script>
+
 
 </body>
 
